@@ -1,12 +1,18 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.*;
-import java.util.List;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import java.time.Duration;
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -15,7 +21,6 @@ public class MtsTests {
 
     @BeforeClass
     public void setUp() {
-
         driver = new ChromeDriver();
         driver.get("https://www.mts.by/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -24,6 +29,7 @@ public class MtsTests {
     }
 
     @Test(description = "Проверка названия блока")
+    @Description("Проверка, что название блока соответствует ожидаемому значению")
     public void blockTitleTest() {
         String expectedText = "Онлайн пополнение без комиссии";
         String actualText = driver.findElement(By.xpath("//div[@class='pay__wrapper']/h2")).getText().replaceAll("\\n", " ");
@@ -31,6 +37,7 @@ public class MtsTests {
     }
 
     @Test(description = "Проверка наличия логотипов платежных систем")
+    @Description("Проверка, что количество логотипов платёжных систем соответствует ожидаемому значению и что все логотипы корректно отображаются")
     public void logosTest() {
         List<WebElement> images = driver.findElements(By.xpath("//div[@class='pay__partners']/descendant::img"));
 
@@ -39,7 +46,7 @@ public class MtsTests {
 
         for (WebElement image : images) {
             String url = image.getAttribute("src");
-            assertTrue(url != null && !url.isEmpty(), "URL калоготипа не должен быть пустым");
+            assertTrue(url != null && !url.isEmpty(), "URL логотипа не должен быть пустым");
             double height = image.getSize().height;
             double width = image.getSize().width;
             assertTrue(height > 0, "Высота картинки " + url + " должна быть больше 0");
@@ -48,6 +55,7 @@ public class MtsTests {
     }
 
     @Test(description = "Проверка ссылки «Подробнее о сервисе»")
+    @Description("Проверка, что ссылка «Подробнее о сервисе» ведёт на правильную страницу")
     public void linkTest() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement link = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Подробнее о сервисе")));
@@ -62,6 +70,7 @@ public class MtsTests {
     }
 
     @Test(description = "Работа кнопки «Продолжить» ")
+    @Description("Проверка, что кнопка «Продолжить» работает корректно")
     public void submitTest() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement buttonSubmit = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//form[@id='pay-connection']")));
@@ -79,6 +88,5 @@ public class MtsTests {
         }
     }
 }
-
 
 
