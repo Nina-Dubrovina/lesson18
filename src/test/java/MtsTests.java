@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
+import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -33,7 +34,9 @@ public class MtsTests {
     public void blockTitleTest() {
         String expectedText = "Онлайн пополнение без комиссии";
         String actualText = driver.findElement(By.xpath("//div[@class='pay__wrapper']/h2")).getText().replaceAll("\\n", " ");
-        assertEquals(expectedText, actualText, "Название блока неверное");
+        step("Proverka nazvanya bloka", () -> {
+            assertEquals(expectedText, actualText, "Название блока неверное");
+        });
     }
 
     @Test(description = "Проверка наличия логотипов платежных систем")

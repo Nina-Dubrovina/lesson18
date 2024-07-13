@@ -14,6 +14,17 @@
                 <artifactId>allure-maven</artifactId>
                 <version>2.10.0</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <properties>
@@ -23,9 +34,9 @@
     </properties>
     <dependencies>
         <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-         <artifactId>selenium-java</artifactId>
-        <version>4.22.0</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.22.0</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -53,6 +64,17 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-commandline</artifactId>
             <version>2.13.9</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.17.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>testng</artifactId>
+                    <groupId>org.testng</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
